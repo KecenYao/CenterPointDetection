@@ -1,3 +1,14 @@
+# CS&DS Capstone Project Object Counting with Statistical Guarantees: Center Point Detection
+
+This is the code source for Kecen Yao's NYU Shanghai CS&DS capstone project in 2023 Fall. The code gives credits to this [CenterNet](https://github.com/xingyizhou/CenterNet) repo. Changes have been made to train CenterNet on our customized dataset (download [here](https://drive.google.com/file/d/1_KELGrc9NYQtnJdWeyoJfGlMP5v9e_tC/view?usp=sharing)).
+1. download the dataset and change the dataset file path to the correct one in 
+CenterNet/src/lib/datasets/dataset/nuImages.py.
+2. Follow the original repo to train, test, and show demos.
+   
+⬇️ Below is the original repo README file.
+
+-----
+
 # Objects as Points
 Object detection, 3D detection, and pose estimation using center point detection:
 ![](readme/fig2.png)
