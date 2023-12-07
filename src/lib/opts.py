@@ -12,8 +12,8 @@ class opts(object):
     # basic experiment setting
     self.parser.add_argument('task', default='ctdet',
                              help='ctdet | ddd | multi_pose | exdet')
-    self.parser.add_argument('--dataset', default='coco',
-                             help='coco | kitti | coco_hp | pascal')
+    self.parser.add_argument('--dataset', default='nuImages',
+                             help='coco | kitti | coco_hp | pascal | nuImages')
     self.parser.add_argument('--exp_id', default='default')
     self.parser.add_argument('--test', action='store_true')
     self.parser.add_argument('--debug', type=int, default=0,
@@ -232,7 +232,7 @@ class opts(object):
 
     opt.gpus_str = opt.gpus
     opt.gpus = [int(gpu) for gpu in opt.gpus.split(',')]
-    opt.gpus = [i for i in range(len(opt.gpus))] if opt.gpus[0] >=0 else [-1]
+    # opt.gpus = [i for i in range(len(opt.gpus))] if opt.gpus[0] >=0 else [-1]
     opt.lr_step = [int(i) for i in opt.lr_step.split(',')]
     opt.test_scales = [float(i) for i in opt.test_scales.split(',')]
 
@@ -335,9 +335,15 @@ class opts(object):
 
   def init(self, args=''):
     default_dataset_info = {
-      'ctdet': {'default_resolution': [512, 512], 'num_classes': 80, 
-                'mean': [0.408, 0.447, 0.470], 'std': [0.289, 0.274, 0.278],
-                'dataset': 'coco'},
+      # 'ctdet': {'default_resolution': [512, 512], 'num_classes': 80, 
+      #           'mean': [0.408, 0.447, 0.470], 'std': [0.289, 0.274, 0.278],
+      #           'dataset': 'coco'},
+      # 'ctdet': {'default_resolution': [512, 512], 'num_classes': 2, 
+      #           'mean': [0.411290, 0.415002, 0.414158], 'std': [0.204639, 0.197959, 0.201109],
+      #           'dataset': 'nuImages'},
+      'ctdet': {'default_resolution': [512, 512], 'num_classes': 1, 
+          'mean': [0.411290, 0.415002, 0.414158], 'std': [0.204639, 0.197959, 0.201109],
+          'dataset': 'nuImages'},
       'exdet': {'default_resolution': [512, 512], 'num_classes': 80, 
                 'mean': [0.408, 0.447, 0.470], 'std': [0.289, 0.274, 0.278],
                 'dataset': 'coco'},

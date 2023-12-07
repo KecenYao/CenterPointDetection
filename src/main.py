@@ -15,6 +15,7 @@ from logger import Logger
 from datasets.dataset_factory import get_dataset
 from trains.train_factory import train_factory
 
+from torch.utils.tensorboard import SummaryWriter
 
 def main(opt):
   torch.manual_seed(opt.seed)
@@ -63,6 +64,10 @@ def main(opt):
       drop_last=True
   )
 
+  log_dir = "./ctdet_training_log"
+  OUT_FILE_NAME = "task_"+opt.task+"_batch_"+str(opt.batch_size)+"_lr_"+str(opt.lr)+"_arch_"+opt.arch
+  writer = SummaryWriter(log_dir+"/"+OUT_FILE_NAME)
+
   print('Starting training...')
   best = 1e10
   for epoch in range(start_epoch + 1, opt.num_epochs + 1):
@@ -72,6 +77,7 @@ def main(opt):
     for k, v in log_dict_train.items():
       logger.scalar_summary('train_{}'.format(k), v, epoch)
       logger.write('{} {:8f} | '.format(k, v))
+      writer.add_scalars("log", {'train_{}'.format(k): v,}, epoch)
     if opt.val_intervals > 0 and epoch % opt.val_intervals == 0:
       save_model(os.path.join(opt.save_dir, 'model_{}.pth'.format(mark)), 
                  epoch, model, optimizer)
@@ -80,6 +86,7 @@ def main(opt):
       for k, v in log_dict_val.items():
         logger.scalar_summary('val_{}'.format(k), v, epoch)
         logger.write('{} {:8f} | '.format(k, v))
+        writer.add_scalars("log", {'val_{}'.format(k): v,}, epoch)
       if log_dict_val[opt.metric] < best:
         best = log_dict_val[opt.metric]
         save_model(os.path.join(opt.save_dir, 'model_best.pth'), 
@@ -96,6 +103,7 @@ def main(opt):
       for param_group in optimizer.param_groups:
           param_group['lr'] = lr
   logger.close()
+  writer.close()
 
 if __name__ == '__main__':
   opt = opts().parse()

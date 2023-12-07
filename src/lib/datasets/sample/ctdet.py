@@ -28,12 +28,11 @@ class CTDetDataset(data.Dataset):
 
   def __getitem__(self, index):
     img_id = self.images[index]
-    file_name = self.coco.loadImgs(ids=[img_id])[0]['file_name']
+    file_name = self.coco.loadImgs(ids=[img_id])[0]['file_name'][18:]
     img_path = os.path.join(self.img_dir, file_name)
     ann_ids = self.coco.getAnnIds(imgIds=[img_id])
     anns = self.coco.loadAnns(ids=ann_ids)
     num_objs = min(len(anns), self.max_objs)
-
     img = cv2.imread(img_path)
 
     height, width = img.shape[0], img.shape[1]

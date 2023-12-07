@@ -109,3 +109,7 @@ ENV/
 
 # mypy
 .mypy_cache/
+
+cdet_training_log
+ctdet_training_log
+output/

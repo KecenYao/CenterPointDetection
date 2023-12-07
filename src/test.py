@@ -100,7 +100,7 @@ def test(opt):
   for ind in range(num_iters):
     img_id = dataset.images[ind]
     img_info = dataset.coco.loadImgs(ids=[img_id])[0]
-    img_path = os.path.join(dataset.img_dir, img_info['file_name'])
+    img_path = os.path.join(dataset.img_dir, img_info['file_name'][18:])
 
     if opt.task == 'ddd':
       ret = detector.run(img_path, img_info['calib'])
